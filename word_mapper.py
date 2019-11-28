@@ -36,18 +36,18 @@ def generate_am_words(en_word):
 
     return am_words
 
-
-def _combination(elements_set):
+# Computes the cartesian product of arbitrary number of sets.
+def _cartesian(elements_set):
     result = []
     if len(elements_set) == 0:
         return result
     if len(elements_set) == 1:
         return [[e] for e in elements_set[0]]
     for i in range(0, 1):
-        combinations = _combination(elements_set[i+1: ])
+        products = _cartesian(elements_set[i+1: ])
         for j in range(0, len(elements_set[i])):
-            for cmb in combinations:
-                result.append([elements_set[i][j]] + cmb)
+            for prdct in products:
+                result.append([elements_set[i][j]] + prdct)
 
     return result
 
@@ -58,7 +58,7 @@ def generate_sentence(en_sent):
         am_words = generate_am_words(word)
         sentence_words.append(am_words)
 
-    combs = _combination(sentence_words)
+    combs = _cartesian(sentence_words)
     sentences = []
     for i in range(0, len(combs)):
         sent = ""
@@ -74,8 +74,8 @@ for am_word in generate_am_words(en_word):
     print(unicode(am_word))
 '''
 '''
-# test combination
-for result in _combination([['x', 'y', 'z'], ['a', 'b', 'c'], ['f', 'j', 'k']]):
+# test cartesian
+for result in _cartesian([['x', 'y', 'z'], ['a', 'b', 'c'], ['f', 'j', 'k']]):
     print(result)
 '''
 
