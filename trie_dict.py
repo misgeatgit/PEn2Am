@@ -27,7 +27,7 @@ class TrieNode:
     def insert( self, word ):
         node = self
         for letter in unicode(word):
-            print("Inserting {}".format(letter))
+            #print("Inserting {}".format(letter))
             if letter not in node.children: 
                 node.children[letter] = TrieNode()
 
@@ -37,7 +37,7 @@ class TrieNode:
 
 # The search function returns a list of all words that are less than the given
 # maximum distance from the target word
-def search( word, maxCost ):
+def search( trie, word, maxCost ):
 
     # build first row
     currentRow = range( len(word) + 1 )
@@ -84,20 +84,23 @@ def searchRecursive( node, letter, word, previousRow, results, maxCost ):
             searchRecursive( node.children[letter], letter, word, currentRow, 
                 results, maxCost )
 
-if __name__ == '__main__':
-    # read dictionary file into a trie
-    trie = TrieNode()
+def load_dict(trie):
+    global WordCount
     with open(DICTIONARY, "rt") as word_freq:
         for wf in word_freq:
             word = wf.split()[0].strip()
             WordCount += 1
             trie.insert(word)
-    #exit()
+
+if __name__ == '__main__':
+    # read dictionary file into a trie
+    trie = TrieNode()
+    load_dict(trie)
     print "Read %d words into %d nodes" % (WordCount, NodeCount)
     TARGET = sys.argv[1]
     MAX_COST = int(sys.argv[2])
     start = time.time()
-    results = search( TARGET, MAX_COST )
+    results = search(trie, TARGET, MAX_COST )
     end = time.time()
 
     for result in results: print("({},{})".format(unicode(result[0]), result[1]))
