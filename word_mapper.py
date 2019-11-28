@@ -39,31 +39,45 @@ def generate_am_words(en_word):
 
 def _combination(elements_set):
     result = []
-    for i in range(0, len(elements_set)):
+    if len(elements_set) == 0:
+        return result
+    if len(elements_set) == 1:
+        return [[e] for e in elements_set[0]]
+    for i in range(0, 1):
+        combinations = _combination(elements_set[i+1: ])
         for j in range(0, len(elements_set[i])):
-            if i + 1 < len(elements_set):
-                for cmb in _combination(elements_set[i+1: ]):
-                    result.append([elements_set[i][j]] + cmb)
-            else:
-                result.append([elements_set[i][j]])
+            for cmb in combinations:
+                result.append([elements_set[i][j]] + cmb)
 
     return result
 
 def generate_sentence(en_sent):
-    words = (en_sent)
+    words = tokenize(en_sent)
     sentence_words = []
     for word in words:
         am_words = generate_am_words(word)
         sentence_words.append(am_words)
 
-    sentences = _combination(sentence_words)
+    combs = _combination(sentence_words)
+    sentences = []
+    for i in range(0, len(combs)):
+        sent = ""
+        for j in range(0, len(combs[i])):
+           sent += combs[i][j]+ " "
+        sentences.append(sent)
+
     # TODO Use edit distance for scoring
-    return sentnces
+    return sentences
 '''
 en_word = "lili"
 for am_word in generate_am_words(en_word):
     print(unicode(am_word))
 '''
+'''
 # test combination
 for result in _combination([['x', 'y', 'z'], ['a', 'b', 'c'], ['f', 'j', 'k']]):
     print(result)
+'''
+
+for sent in generate_sentence("lili konjo lij nat"):
+    print(sent)
