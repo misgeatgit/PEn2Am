@@ -1,3 +1,8 @@
+# encoding=utf8
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 KEY_MAP={
         "ha":["ሀ", "ሐ", "ሓ", "ሗ", "ሃ", "ኸ"], "hu":["ሁ", "ኹ", "ሑ", "ሗ"],
         "hi":["ሂ", "ሒ", "ኺ"], "haa":["ሃ", "ሀ", "ሓ", "ሐ", "ኸ", "ኻ"],
