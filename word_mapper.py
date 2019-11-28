@@ -92,6 +92,7 @@ def generate_sentence(en_sent):
         scored_words.sort(key=operator.itemgetter(1))
         scored_sentence_words.append(scored_words)
 
+    # Choose the top words and construct a sentence.
     sentences = []
     sent = ""
     for i in range(0, len(scored_sentence_words)):
