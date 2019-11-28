@@ -1,15 +1,13 @@
+# encoding=utf8
 #!/usr/bin/python
 #By Steve Hanov, 2011. Released to the public domain
 import time
 import sys
-# encoding=utf8  
-reload(sys)  
+reload(sys)
 sys.setdefaultencoding('utf8')
 
 DICTIONARY = "/usr/share/dict/words";
 DICTIONARY = "data/dictionary.txt";
-TARGET = sys.argv[1]
-MAX_COST = int(sys.argv[2])
 
 # Keep some interesting statistics
 NodeCount = 0
@@ -69,7 +67,7 @@ def searchRecursive( node, letter, word, previousRow, results, maxCost ):
 
         if word[column - 1] != letter:
             replaceCost = previousRow[ column - 1 ] + 1
-        else:                
+        else:
             replaceCost = previousRow[ column - 1 ]
 
         currentRow.append( min( insertCost, deleteCost, replaceCost ) )
@@ -86,21 +84,22 @@ def searchRecursive( node, letter, word, previousRow, results, maxCost ):
             searchRecursive( node.children[letter], letter, word, currentRow, 
                 results, maxCost )
 
-# read dictionary file into a trie
-trie = TrieNode()
-with open(DICTIONARY, "rt") as word_freq:
-    for wf in word_freq:
-        word = wf.split()[0].strip()
-        WordCount += 1
-        trie.insert(word)
-#exit()
+if __name__ == '__main__':
+    # read dictionary file into a trie
+    trie = TrieNode()
+    with open(DICTIONARY, "rt") as word_freq:
+        for wf in word_freq:
+            word = wf.split()[0].strip()
+            WordCount += 1
+            trie.insert(word)
+    #exit()
+    print "Read %d words into %d nodes" % (WordCount, NodeCount)
+    TARGET = sys.argv[1]
+    MAX_COST = int(sys.argv[2])
+    start = time.time()
+    results = search( TARGET, MAX_COST )
+    end = time.time()
 
-print "Read %d words into %d nodes" % (WordCount, NodeCount)
+    for result in results: print("({},{})".format(unicode(result[0]), result[1]))
 
-start = time.time()
-results = search( TARGET, MAX_COST )
-end = time.time()
-
-for result in results: print("({},{})".format(unicode(result[0]), result[1]))
-
-print "Search took %g s" % (end - start)
+    print "Search took %g s" % (end - start)
