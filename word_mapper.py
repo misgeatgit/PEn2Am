@@ -124,6 +124,7 @@ def test_functions():
 if __name__ == '__main__':
     if len(sys.argv) <= 2:
         print('Need to provide input sentence. eg. word_mapper.py "lijtua knojo nat"')
+        exit()
     input_sentence = sys.argv[1]
 
     print("Input sentence: {}".format(input_sentence))
