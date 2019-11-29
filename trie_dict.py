@@ -3,8 +3,8 @@
 #By Steve Hanov, 2011. Released to the public domain
 import time
 import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 
 DICTIONARY = "/usr/share/dict/words";
 DICTIONARY = "data/dictionary.txt";
@@ -26,7 +26,7 @@ class TrieNode:
 
     def insert( self, word ):
         node = self
-        for letter in unicode(word):
+        for letter in word:
             #print("Inserting {}".format(letter))
             if letter not in node.children: 
                 node.children[letter] = TrieNode()
@@ -46,7 +46,7 @@ def search( trie, word, maxCost ):
 
     # recursively search each branch of the trie
     for letter in trie.children:
-        searchRecursive( trie.children[letter], letter, unicode(word), currentRow, 
+        searchRecursive( trie.children[letter], letter, word, currentRow, 
             results, maxCost )
 
     return results
@@ -60,7 +60,7 @@ def searchRecursive( node, letter, word, previousRow, results, maxCost ):
 
     # Build one row for the letter, with a column for each letter in the target
     # word, plus one for the empty string at column 0
-    for column in xrange( 1, columns ):
+    for column in range( 1, columns ):
 
         insertCost = currentRow[column - 1] + 1
         deleteCost = previousRow[column] + 1
@@ -96,13 +96,13 @@ if __name__ == '__main__':
     # read dictionary file into a trie
     trie = TrieNode()
     load_dict(trie)
-    print "Read %d words into %d nodes" % (WordCount, NodeCount)
+    print("Read {} words into {} nodes".format(WordCount, NodeCount))
     TARGET = sys.argv[1]
     MAX_COST = int(sys.argv[2])
     start = time.time()
     results = search(trie, TARGET, MAX_COST )
     end = time.time()
 
-    for result in results: print("({},{})".format(unicode(result[0]), result[1]))
+    for result in results: print("({},{})".format(result[0], result[1]))
 
-    print "Search took %g s" % (end - start)
+    print("Search took {} s".format(end - start))
