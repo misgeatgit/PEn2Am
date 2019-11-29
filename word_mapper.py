@@ -9,12 +9,6 @@ from trie_dict import *
 
 __author__='misgana.bayetta@gmail.com'
 
-trie = TrieNode()
-
-print("Loading dictionary...")
-ti = time.time()
-load_dict(trie)
-print("Loaded dict in {} sec.".format(time.time() - ti))
 
 # This may end up doing more complex tokenizations.
 def tokenize(sentence):
@@ -111,17 +105,33 @@ def generate_sentence(en_sent):
         sentences.append(sent)
     '''
     return sentences
-'''
-en_word = "lili"
-for am_word in generate_am_words(en_word):
-    print(am_word)
-'''
-'''
-# test cartesian
-for result in _cartesian([['x', 'y', 'z'], ['a', 'b', 'c'], ['f', 'j', 'k']]):
-    print(result)
-'''
 
-for sent in generate_sentence("lili konjo lij nat"):
-    print(sent)
+def test_functions():
+    '''
+    en_word = "lili"
+    for am_word in generate_am_words(en_word):
+        print(am_word)
+    '''
+    '''
+    # test cartesian
+    for result in _cartesian([['x', 'y', 'z'], ['a', 'b', 'c'], ['f', 'j', 'k']]):
+        print(result)
+    for result in _cartesian([['Misgana', 'Nemera', 'Hawi'], ['Bayetta'], ['Belachew']]):
+        print(result)
+    '''
+    pass
 
+if __name__ == '__main__':
+    if len(sys.argv) <= 2:
+        print('Need to provide input sentence. eg. word_mapper.py "lijtua knojo nat"')
+    input_sentence = sys.argv[1]
+
+    print("Input sentence: {}".format(input_sentence))
+    trie = TrieNode()
+    print("Loading dictionary...")
+    ti = time.time()
+    load_dict(trie)
+    print("Loaded dict in {} sec.".format(time.time() - ti))
+
+    for sent in generate_sentence(input_sentence):
+        print(sent)
