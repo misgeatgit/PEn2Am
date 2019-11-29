@@ -7,6 +7,7 @@ import time
 from keymap import *
 from trie_dict import *
 
+__author__='misgana.bayetta@gmail.com'
 
 trie = TrieNode()
 
